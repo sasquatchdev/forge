@@ -1,11 +1,12 @@
-use std::collections::HashMap;
-
+use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
+
+pub mod load;
 
 #[derive(Serialize, Deserialize)]
 pub struct Template {
     pub identifier: String,
-    pub version: String,
+    pub path: PathBuf,
     pub config: Configuration,
 }
 
@@ -13,7 +14,7 @@ pub struct Template {
 pub struct Configuration {
     pub display: DisplayConfiguration,
     pub internal: Option<InternalConfiguration>,
-    pub variants: HashMap<String, VariantConfiguration>,
+    pub variant: Vec<VariantConfiguration>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -31,5 +32,6 @@ pub struct InternalConfiguration {
 
 #[derive(Serialize, Deserialize)]
 pub struct VariantConfiguration {
+    pub name: String,
     pub files: Vec<String>,
 }
