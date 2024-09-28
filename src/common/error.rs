@@ -6,6 +6,7 @@ pub enum Error {
     #[error(transparent)] Generic(#[from] Box<dyn std::error::Error>),
     #[error("IO Error: {0}")] IOError(#[from] std::io::Error),
     #[error("TOML Error: {0}")] TOMLError(#[from] toml::de::Error),
+    #[error("Lua Error: {0}")] LuaError(#[from] mlua::Error),
     
     /* Custom Errors */
     #[error("Invalid Template Structure: {0}")]

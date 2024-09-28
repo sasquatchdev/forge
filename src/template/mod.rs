@@ -35,4 +35,5 @@ pub struct InternalConfiguration {
 pub struct VariantConfiguration {
     pub name: String,
     pub files: Vec<String>,
+    pub input: Vec<String>,
 }
