@@ -24,5 +24,8 @@ pub fn select_template(message: impl Into<String>, path: impl Into<PathBuf>) -> 
 
 pub fn select_variant(message: impl Into<String>, template: &Template) -> Result<VariantConfiguration> {
     let variants = &template.config.variant;
+    if variants.len() == 1 {
+        return Ok(variants[0].clone());
+    }
     Ok(select_from(message.into(), variants.to_vec()))
 }
