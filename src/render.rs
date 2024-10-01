@@ -39,7 +39,11 @@ pub fn render_dir(from_root: PathBuf, to_root: PathBuf, context: &Context) -> Re
     Ok(())
 }
 
-pub fn render_file(from: PathBuf, to: PathBuf, context: &Context) -> Result<()> {
+pub fn render_file(from: PathBuf, mut to: PathBuf, context: &Context) -> Result<()> {
+    if to.extension().map_or(false, |ext| ext == "to") {
+        to = to.with_extension("");
+    }
+    
     let content = fs::read_to_string(from)?;
     let rendered = render(content, context)?;
     let _ = fs::create_dir_all(to.parent().unwrap());
