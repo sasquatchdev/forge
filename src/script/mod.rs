@@ -4,7 +4,7 @@ use mlua::{Lua, Table};
 
 use crate::Result;
 
-mod json;
+pub mod json;
 
 fn register<'a>(lua: &'a Lua, namespace: &mut Table<'a>) -> Result<()> {
     namespace.set("prompt_text", lua.create_function(|_, message: String| {
@@ -35,7 +35,6 @@ pub fn eval_from(path: PathBuf) -> Result<serde_json::Value> {
 
     // 3. Execute and return
     let result = lua.load(content).eval()?;
-    println!("Valid file: {:?}", path);
     Ok(to_json(result))
 }
 
