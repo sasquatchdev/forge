@@ -15,10 +15,13 @@ mod interact;
 mod render;
 mod script;
 
-const TEMPLATES: &str = "/home/sasquatchdev/forge/res";
 fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
+    // 0. Get templates path
+    let home = std::env::var("HOME")?;
+    let templates = format!("{}/.forge", home);
+
     // 1. Select template & variant
-    let template = select_template("Please select a template", TEMPLATES)?;
+    let template = select_template("Please select a template", templates)?;
     let variant = select_variant("Please select a variant", &template)?;
     let title = Text::new("Please provide a title").prompt()?;
     let path = Text::new("Please provide a path").with_default(&format!("./{}", title)).prompt()?;
@@ -55,7 +58,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     // 4. Render files
     let files: Vec<PathBuf> = variant.files
         .iter()
-        .map(|str| PathBuf::from(str))
+        .map(PathBuf::from)
         .collect();
 
     fs::create_dir_all(&target)?;
